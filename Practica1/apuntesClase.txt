@@ -1,0 +1,26 @@
+Para usar gnuplot:
+
+gnuplot
+> plot "tiempos.dat" w l
+> f(x) = ax+b
+> fit f(x) "tiempos.dat" via a,b
+
+si es n cuadrado:
+
+>f(x)=a*x**2+b*x+c
+>fit f(x) "tiempos.dat" via a,b,c
+
+probar empiricamente mejorcaso(esta en la primera posicion),
+el peor caso( que no este dentro del vector), el promedio que
+cada vez el elemento que se busca este en cada una de las posiciones.
+
+plot ’salida.dat’ title ’Eficiencia XXX’ with points
+plot ’salida.dat’, f(x) title ’Curva ajustada’
+
+set xlabel "Tamaño"
+set ylabel "Tiempo (seg)""
+set terminal png
+set output 'salida.png'
+
+Para compilar el cpp:
+g++ insercion.cpp -o insercion -std=c++11
