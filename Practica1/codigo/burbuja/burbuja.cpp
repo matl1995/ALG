@@ -6,24 +6,19 @@ using namespace std::chrono;
 
 void burbuja(int *v, int n)
 {
-  bool intercambio=true;
 	int temp;
-
-  while(intercambio)
-  {
-    intercambio=false;
-
-    for(int i=0;i<n;i++)
-    {
-      if(v[i-1]>v[i])
-      {
-        intercambio=true;
-        temp=v[i];
-        v[i]=v[i-1];
-        v[i-1]=temp;
-      }
-    }
-  }
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=n-1;j>i;j--)
+		{
+			if (v[j]<v[j-1])
+			{
+				temp=v[j];
+				v[j]=v[j-1];
+				v[j-1]=temp;
+			}
+		}
+	}
 }
 
 void sintaxis()
