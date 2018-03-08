@@ -1,0 +1,52 @@
+
+
+*******************************************************************************
+Thu Mar  8 20:34:56 2018
+
+
+FIT:    data read from "salidapermutacion.dat"
+        format = z
+        #datapoints = 10
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 1.60665e+15       delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 5.78984e+06
+
+initial set of free parameter values
+
+a               = 1
+b               = 1
+c               = 1
+d               = 1
+
+After 11 iterations the fit converged.
+final sum of squares of residuals : 0.000356418
+rel. change during last iteration : -2.16586e-13
+
+degrees of freedom    (FIT_NDF)                        : 6
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.00770734
+variance of residuals (reduced chisquare) = WSSR/ndf   : 5.94031e-05
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 7.23341e-07      +/- 2.866e-08    (3.962%)
+b               = -5.80394e-06     +/- 2.88e-07     (4.962%)
+c               = 0.00265042       +/- 0.001313     (49.55%)
+d               = -0.00734123      +/- 0.006242     (85.02%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.617 -0.621  1.000 
+d              -0.414  0.417 -0.892  1.000 
