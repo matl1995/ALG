@@ -1,0 +1,208 @@
+
+
+*******************************************************************************
+Thu Mar  8 15:56:25 2018
+
+
+FIT:    data read from "salidaapo.dat"
+        format = z
+        #datapoints = 400
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 1.761e+15         delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 992963
+
+initial set of free parameter values
+
+a               = 1
+b               = 1
+c               = 1
+d               = 1
+
+After 10 iterations the fit converged.
+final sum of squares of residuals : 0.0529295
+rel. change during last iteration : -6.22772e-10
+
+degrees of freedom    (FIT_NDF)                        : 396
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0115612
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00013366
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 1.67808e-07      +/- 4.673e-08    (27.85%)
+b               = -2.56257e-06     +/- 8.716e-07    (34.01%)
+c               = 0.00235347       +/- 0.001934     (82.19%)
+d               = -0.0240377       +/- 0.02324      (96.67%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.894 -0.903  1.000 
+d              -0.850  0.861 -0.995  1.000 
+
+
+*******************************************************************************
+Thu Mar  8 15:57:21 2018
+
+
+FIT:    data read from "salidaapo.dat"
+        format = z
+        #datapoints = 400
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 0.0529295         delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 992963
+
+initial set of free parameter values
+
+a               = 1.67808e-07
+b               = -2.56257e-06
+c               = 0.00235347
+d               = -0.0240377
+
+The maximum lambda = 1.000000e+20 was exceeded. Fit stopped.
+final sum of squares of residuals : 0.0529295
+rel. change during last iteration : 0
+
+degrees of freedom    (FIT_NDF)                        : 396
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0115612
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00013366
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 1.67808e-07      +/- 4.673e-08    (27.85%)
+b               = -2.56257e-06     +/- 8.716e-07    (34.01%)
+c               = 0.00235347       +/- 0.001934     (82.19%)
+d               = -0.0240377       +/- 0.02324      (96.67%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.894 -0.903  1.000 
+d              -0.850  0.861 -0.995  1.000 
+
+
+*******************************************************************************
+Thu Mar  8 16:00:23 2018
+
+
+FIT:    data read from "salidaapo.dat"
+        format = z
+        #datapoints = 1000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 4.39209e+15       delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 991786
+
+initial set of free parameter values
+
+a               = 1
+b               = 1
+c               = 1
+d               = 1
+
+After 10 iterations the fit converged.
+final sum of squares of residuals : 0.142548
+rel. change during last iteration : -4.56675e-12
+
+degrees of freedom    (FIT_NDF)                        : 996
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0119633
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00014312
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 1.44621e-07      +/- 2.907e-08    (20.1%)
+b               = -2.1452e-06      +/- 5.411e-07    (25.23%)
+c               = 0.00201744       +/- 0.001163     (57.65%)
+d               = -0.020626        +/- 0.01392      (67.48%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.883 -0.893  1.000 
+d              -0.833  0.844 -0.994  1.000 
+
+
+*******************************************************************************
+Thu Mar  8 16:00:54 2018
+
+
+FIT:    data read from "salidaapo.dat"
+        format = z
+        #datapoints = 1000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 0.142548          delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 991786
+
+initial set of free parameter values
+
+a               = 1.44621e-07
+b               = -2.1452e-06
+c               = 0.00201744
+d               = -0.020626
+
+After 1 iterations the fit converged.
+final sum of squares of residuals : 0.142548
+rel. change during last iteration : -1.94711e-16
+
+degrees of freedom    (FIT_NDF)                        : 996
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0119633
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00014312
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 1.44621e-07      +/- 2.907e-08    (20.1%)
+b               = -2.1452e-06      +/- 5.411e-07    (25.23%)
+c               = 0.00201744       +/- 0.001163     (57.65%)
+d               = -0.020626        +/- 0.01392      (67.48%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.883 -0.893  1.000 
+d              -0.833  0.844 -0.994  1.000 

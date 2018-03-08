@@ -43,12 +43,24 @@ int main(int argc, char * argv[])
   int vmax=atoi(argv[2]);    // Valor máximo
   if (tam<=0 || vmax<=0)
     sintaxis();
-  
+ /*
   // Generación del vector aleatorio
   int *v=new int[tam];       // Reserva de memoria
   srand(time(0));            // Inicialización del generador de números pseudoaleatorios
   for (int i=0; i<tam; i++)  // Recorrer vector
     v[i] = rand() % vmax;    // Generar aleatorio [0,vmax[
+*/
+/*
+ // Generación del vector caso peor
+  int *v=new int[tam];       // Reserva de memoria
+  for (int i=0; i<tam; i++)  // Recorrer vector
+    v[i] = tam-i;
+*/
+
+// Generación del vector caso mejor
+  int *v=new int[tam];       // Reserva de memoria
+  for (int i=0; i<tam; i++)  // Recorrer vector
+    v[i] = i;
   
  high_resolution_clock::time_point start,//punto de inicio
                                   end; //punto de fin

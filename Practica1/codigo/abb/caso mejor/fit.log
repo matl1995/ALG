@@ -1,0 +1,52 @@
+
+
+*******************************************************************************
+Thu Mar  8 15:13:55 2018
+
+
+FIT:    data read from "salidaabb.dat"
+        format = z
+        #datapoints = 60
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+fitted parameters initialized with current variable values
+
+
+
+ Iteration 0
+ WSSR        : 4.38292e+12       delta(WSSR)/WSSR   : 0
+ delta(WSSR) : 0                 limit for stopping : 1e-05
+ lambda	  : 126672
+
+initial set of free parameter values
+
+a               = 1
+b               = 1
+c               = 1
+d               = 1
+
+After 10 iterations the fit converged.
+final sum of squares of residuals : 0.189659
+rel. change during last iteration : -6.3221e-14
+
+degrees of freedom    (FIT_NDF)                        : 56
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0581959
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00338676
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+
+a               = 0.000114074      +/- 5.187e-06    (4.547%)
+b               = -0.00165468      +/- 8.337e-05    (5.038%)
+c               = 0.350274         +/- 0.03802      (10.85%)
+d               = -2.93965         +/- 0.364        (12.38%)
+
+
+correlation matrix of the fit parameters:
+
+               a      b      c      d      
+a               1.000 
+b              -1.000  1.000 
+c               0.933 -0.940  1.000 
+d              -0.901  0.910 -0.996  1.000 

@@ -7,15 +7,15 @@ using namespace std::chrono;
 void burbuja(int *v, int n)
 {
 	int temp;
-	for(int i=0;i<n-1;i++)
+	for(int i=2;i<=n;i++)
 	{
-		for(int j=n-1;j>i;j--)
+		for(int j=0;j<=n-i;j++)
 		{
-			if (v[j]<v[j-1])
+			if (v[j]>v[j+1])
 			{
 				temp=v[j];
-				v[j]=v[j-1];
-				v[j-1]=temp;
+				v[j]=v[j+1];
+				v[j+1]=temp;
 			}
 		}
 	}
@@ -39,12 +39,24 @@ int main(int argc, char * argv[])
   int vmax=atoi(argv[2]);    // Valor máximo
   if (tam<=0 || vmax<=0)
     sintaxis();
-  
+ /*
   // Generación del vector aleatorio
   int *v=new int[tam];       // Reserva de memoria
   srand(time(0));            // Inicialización del generador de números pseudoaleatorios
   for (int i=0; i<tam; i++)  // Recorrer vector
     v[i] = rand() % vmax;    // Generar aleatorio [0,vmax[
+*/
+/*
+ // Generación del vector caso peor
+  int *v=new int[tam];       // Reserva de memoria
+  for (int i=0; i<tam; i++)  // Recorrer vector
+    v[i] = tam-i;
+*/
+
+// Generación del vector caso mejor
+  int *v=new int[tam];       // Reserva de memoria
+  for (int i=0; i<tam; i++)  // Recorrer vector
+    v[i] = i;
   
  high_resolution_clock::time_point start,//punto de inicio
                                   end; //punto de fin
@@ -58,14 +70,14 @@ int main(int argc, char * argv[])
  end = high_resolution_clock::now(); //anotamos el punto de de fin 
  //el tiempo transcurrido es
  tiempo_transcurrido  = duration_cast<duration<double> >(end - start);
-
+/*
  //Mostrar el vector
  for(int i=0;i<tam;i++)
  {
   cout<<v[i]<<" ";
  }
  cout<<endl;
-
+*/
   // Mostramos resultados
   cout << tam << "\t" <<tiempo_transcurrido.count() << endl;
   
