@@ -73,18 +73,6 @@ cin.clear(); */
   }
 */
 
-  // Generación del vector caso mejor
-  int *v=new int[tam];       // Reserva de memoria
-  v[0]=tam/2;
-  int j=1;
-  for (int i=0; i<tam/2; i++)  // Recorrer vector
-  {
-  	v[j]=tam/2-i;
-  	v[j+1]=tam/2+i;
-  	j=j+2;
-  }
-
-
 /*
 // Generación del vector caso peor
   int *v=new int[tam];       // Reserva de memoria

@@ -2,14 +2,14 @@
    @file Ordenaci—n por mezcla
 */
 
-   
+#include <string>    
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <climits>
 #include <cassert>
-
-using namespace std;
+#include <chrono>// Recursos para medir tiempos
+using namespace std::chrono;
 
 
 
@@ -197,7 +197,7 @@ int main(int argc, char * argv[])
 
   if (argc != 2)
     {
-      cerr << "Formato " << argv[0] << " <num_elem>" << endl;
+      std::cout << "Formato " << argv[0] << " <num_elem>" << std::endl;
       return -1;
     }
 
@@ -207,57 +207,84 @@ int main(int argc, char * argv[])
   assert(T);
 
   srandom(time(0));
-
-  for (int i = 0; i < n; i++)
+/*
+  //Caso promedio
+  for (int i=0;i<n;i++)
     {
-      T[i] = random();
+      T[i]=random();
     };
+*//*
+  //Caso peor
+  for (int i=0;i<n;i++)
+    {
+      T[i]=n-i;
+    };
+*/
+  //Caso mejor
+  for (int i=0;i<n;i++)
+    {
+      T[i]=i;
+    };
+
 
   const int TAM_GRANDE = 10000;
   const int NUM_VECES = 1000;
 
   if (n > TAM_GRANDE)
     {
-      clock_t t_antes = clock();
+    	high_resolution_clock::time_point t_antes,//punto de inicio
+                                  t_despues; //punto de fin
+ 		duration<double> tiempo_transcurrido;  //objeto para medir la duracion de end               // y start
+  
+ 		t_antes = high_resolution_clock::now(); //iniciamos el punto de inicio
       
       mergesort(T, n);
       
-      clock_t t_despues = clock();
-  
-      cout << n << "  " << ((double)(t_despues - t_antes)) / CLOCKS_PER_SEC 
-	   << endl;
+          t_despues = high_resolution_clock::now(); //anotamos el punto de de fin 
+		 //el tiempo transcurrido es
+		 tiempo_transcurrido  = duration_cast<duration<double> >(t_despues - t_antes);
+
+		 // Mostramos resultados
+		 std::cout << n << "\t" <<tiempo_transcurrido.count() << std::endl;
     } else {
       int * U = new int[n];
       assert(U);
 
       for (int i = 0; i < n; i++)
-	U[i] = T[i];
+		U[i] = T[i];
       
-      clock_t t_antes_vacio = clock();
-      for (int veces = 0; veces < NUM_VECES; veces++)
-	{
-	  for (int i = 0; i < n; i++)
-	    U[i] = T[i];
-	}
-      clock_t t_despues_vacio = clock();
+      	high_resolution_clock::time_point t_antes_vacio,//punto de inicio
+                                  t_despues_vacio; //punto de fin
+ 		t_antes_vacio = high_resolution_clock::now(); //iniciamos el punto de inicio
 
-      clock_t t_antes = clock();
       for (int veces = 0; veces < NUM_VECES; veces++)
-	{
-	  for (int i = 0; i < n; i++)
-	    U[i] = T[i];
-	  mergesort(U, n);
-	}
-      clock_t t_despues = clock();
-      cout << n << " \t  " 
-	   << ((double) ((t_despues - t_antes) - 
-			 (t_despues_vacio - t_antes_vacio))) / 
-	(CLOCKS_PER_SEC * NUM_VECES)
-	   << endl;
+		{
+	  		for (int i = 0; i < n; i++)
+	    		U[i] = T[i];
+		}
+
+		 t_despues_vacio = high_resolution_clock::now(); //anotamos el punto de de fin 
+
+      	high_resolution_clock::time_point t_antes,//punto de inicio
+                                  t_despues; //punto de fin
+ 		duration<double> tiempo_transcurrido1;  //objeto para medir la duracion de end               // y start
+ 		t_antes = high_resolution_clock::now(); //iniciamos el punto de inicio
+
+      for (int veces = 0; veces < NUM_VECES; veces++)
+		{
+	  		for (int i = 0; i < n; i++)
+	    		U[i] = T[i];
+
+	  		mergesort(U, n);
+		}
+		 t_despues = high_resolution_clock::now(); //anotamos el punto de de fin 
+      	 //el tiempo transcurrido es
+		 tiempo_transcurrido1  = duration_cast<duration<double> >(t_despues - t_antes) - duration_cast<duration<double> >(t_despues_vacio - t_antes_vacio);
+		 // Mostramos resultados
+		 std::cout << n << "\t" <<tiempo_transcurrido1.count() << std::endl;
 
       delete [] U;
     }
-
 
   delete [] T;
 
