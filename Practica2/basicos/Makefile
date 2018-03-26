@@ -6,7 +6,7 @@ CXX = g++
 CPPFLAGS =-std=c++11
 
 
-all: $(BIN)/maxmin $(BIN)/minmax_matriz $(BIN)/zapatos
+all: $(BIN)/maxmin $(BIN)/minmax_matriz $(BIN)/zapatos $(BIN)/moda
 
 # ************ Generación de documentación ******************
 documentacion:
@@ -21,6 +21,9 @@ $(BIN)/minmax_matriz:
 
 $(BIN)/zapatos:
 	$(CXX) $(SRC)/zapatos.cpp -o $(BIN)/zapatos $(CPPFLAGS)
+
+$(BIN)/moda:
+	$(CXX) $(SRC)/moda.cpp -o $(BIN)/moda $(CPPFLAGS)
 
 
 # ************ Limpieza ************

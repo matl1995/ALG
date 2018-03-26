@@ -17,7 +17,7 @@ vector<pair<int,int>> tallas(vector<int> zapatos,vector<int> pies,int n)
 	else
 	{
 		//Obtengo el primer pivote
-		int pivote1=zapatos[rand()%tam];
+		int pivote1=zapatos[rand()%n];
 		vector<int> pmenores, pmayores, piguales;
 
 		//Busco los pies que son de talla menor, igual o mayor y los meto en sus respectivos conjuntos
