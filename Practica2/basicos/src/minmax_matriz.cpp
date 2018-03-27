@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>  // Para generación de números pseudoaleatorios
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 pair<int,int> Max_Min(int **M,int inicioi,int inicioj,int n)
 {
@@ -129,13 +131,28 @@ int main(int argc, char * argv[])
 		for(int j=0;j<tam;j++)
 		{
 			M[i][j]=rand()%100;    // Generar aleatorio [0,tam]
-			cout<<M[i][j]<<" ";
+			//cout<<M[i][j]<<" ";
 		}
-		cout<<endl;
+		//cout<<endl;
 	}
-	cout<<endl;
+	//cout<<endl;
+
+	//Procedo a medir los tiempos
+	high_resolution_clock::time_point start,//punto de inicio
+                                  end; //punto de fin
+ 	duration<double> tiempo_transcurrido;  //objeto para medir la duracion de end y start
+  
+ 	start = high_resolution_clock::now(); //iniciamos el punto de inicio
 
 	pair<int,int> minmax=Max_Min(M,0,0,tam);
-	cout<<"Minimo: "<<minmax.first<<endl;
-	cout<<"Maximo: "<<minmax.second<<endl;
+
+	end = high_resolution_clock::now(); //anotamos el punto de de fin 
+ 	//el tiempo transcurrido es
+ 	tiempo_transcurrido  = duration_cast<duration<double> >(end - start);
+ 
+  	// Mostramos resultados
+  	cout << tam << "\t" <<tiempo_transcurrido.count() << endl;
+
+	/*cout<<"Minimo: "<<minmax.first<<endl;
+	cout<<"Maximo: "<<minmax.second<<endl;*/
 }
