@@ -3,9 +3,7 @@
 #include <algorithm> //Para desordenar el vector de pies
 #include <utility> //Para hacer pair
 #include <vector> //Para tener vectores
-#include <chrono>
 using namespace std;
-using namespace std::chrono;
 
 vector<pair<int,int>> tallas(vector<int> zapatos,vector<int> pies,int n)
 {
@@ -100,57 +98,28 @@ int main(int argc, char * argv[])
 
 	srand(time(0));            // Inicialización del generador de números pseudoaleatorios
 
-	/*//Caso peor: no hay repeditos, por lo que cada numero es diferente y hay pasar por todos los numeros (mas recursiones)
-	for (int i=0;i<tam;i++)  // Recorrer vector
-	{
-		zapatos.push_back(i+1);    // Generar aleatorio [0,5]
-		pies.push_back(zapatos[i]);
-	}*/
-
-	//Caso mejor: todos son el mismo entonces entran en iguales y las recursiones devuelven 0
-	/*for (int i=0;i<tam;i++)  // Recorrer vector
-	{
-		zapatos.push_back(1);    // Generar aleatorio [0,5]
-		pies.push_back(zapatos[i]);
-	}*/
-
-	//Caso promedio: hay repetidos, por lo que algunos se agruparan en el elemento iguales y habra menos recursiones
 	//cout<<"Vectores antes de ordenar:"<<endl;
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		zapatos.push_back(rand()%tam);    // Generar aleatorio [0,5]
 		pies.push_back(zapatos[i]);
-		//cout<<zapatos[i]<<" ";
+		cout<<zapatos[i]<<" ";
 	}
-	//cout<<endl;
+	cout<<endl;
 
 	//Desordeno pies
 	random_shuffle(pies.begin(),pies.end());
 
-	/*//Imprimo las tallas de los pies
+	//Imprimo las tallas de los pies
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		cout<<pies[i]<<" ";
 	}
-	cout<<endl;*/
-
-	//Procedo a medir los tiempos
-	high_resolution_clock::time_point start,//punto de inicio
-                                  end; //punto de fin
- 	duration<double> tiempo_transcurrido;  //objeto para medir la duracion de end y start
-  
- 	start = high_resolution_clock::now(); //iniciamos el punto de inicio
+	cout<<endl;
 
 	vector<pair<int,int>> zapatos_pies=tallas(zapatos,pies,tam);
 
-	end = high_resolution_clock::now(); //anotamos el punto de de fin 
- 	//el tiempo transcurrido es
- 	tiempo_transcurrido  = duration_cast<duration<double> >(end - start);
- 
-  	// Mostramos resultados
-  	cout << tam << "\t" <<tiempo_transcurrido.count() << endl;
-
-	/*cout<<"Vectores despues de ordenar:"<<endl;
+	cout<<"Vectores despues de ordenar:"<<endl;
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		cout<<zapatos_pies[i].first<<" ";
@@ -161,5 +130,5 @@ int main(int argc, char * argv[])
 	{
 		cout<<zapatos_pies[i].second<<" ";
 	}
-	cout<<endl;*/
+	cout<<endl;
 }

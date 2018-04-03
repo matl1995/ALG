@@ -3,9 +3,7 @@
 #include <algorithm> //Para desordenar el vector de pies
 #include <utility> //Para hacer pair
 #include <vector> //Para tener vectores
-#include <chrono>
 using namespace std;
-using namespace std::chrono;
 
 pair<int,int> moda(vector<int> elementos,int n)
 {
@@ -91,42 +89,15 @@ int main(int argc, char * argv[])
 
 	srand(time(0));            // Inicialización del generador de números pseudoaleatorios
 
-	//Caso peor: no se repiten elementos, por tanto se tiene que pasar por todos los elementos a traves de recursiones
-	/*for (int i=0;i<tam;i++)  // Recorrer vector
-	{
-		elementos.push_back(i+1);    // Generar aleatorio [0,5]
-	}*/
-
-	//Caso mejor: todos los numero son el mismo, por lo que van a homogeneos y las recursiones devuelven pair con 0
-	/*for (int i=0;i<tam;i++)  // Recorrer vector
-	{
-		elementos.push_back(1);    // Generar aleatorio [0,5]
-	}*/
-
-	//Caso promedio
-	//cout<<"Conjunto de elementos:"<<endl;
+	cout<<"Conjunto de elementos:"<<endl;
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		elementos.push_back(rand()%tam);    // Generar aleatorio [0,5]
-		//cout<<elementos[i]<<" ";
+		cout<<elementos[i]<<" ";
 	}
-	//cout<<endl;
-
-	//Procedo a medir los tiempos
-	high_resolution_clock::time_point start,//punto de inicio
-                                  end; //punto de fin
- 	duration<double> tiempo_transcurrido;  //objeto para medir la duracion de end y start
-  
- 	start = high_resolution_clock::now(); //iniciamos el punto de inicio
+	cout<<endl;
 
 	pair<int,int> moda_freq=moda(elementos,tam);
 
-	end = high_resolution_clock::now(); //anotamos el punto de de fin 
- 	//el tiempo transcurrido es
- 	tiempo_transcurrido  = duration_cast<duration<double> >(end - start);
- 
-  	// Mostramos resultados
-  	cout << tam << "\t" <<tiempo_transcurrido.count() << endl;
-
-	//cout<<"Elemento moda: "<<moda_freq.first<<", numero de veces que aparece: "<<moda_freq.second<<endl;
+	cout<<"Elemento moda: "<<moda_freq.first<<", numero de veces que aparece: "<<moda_freq.second<<endl;
 }
