@@ -20,25 +20,14 @@ pair<int,int> moda(vector<int> elementos,int n)
 	else
 	{
 		//Obtengo el primer pivote
-		int pivote=elementos[rand()%n];
-		vector<int> heterogeneos_menores, heterogeneos_mayores, homogeneos;
+		int pivote=Pivote(elementos,0,elementos.size()-1);
 
-		//Busco los elementos menores mayores e iguales para introducirlos en sus respectivos conjuntos
-		for(int i=0;i<n;i++)
+		int het_men=0;
+		for(int i=0;i<pivote;i++)
 		{
-			if(elementos[i]<pivote)
-			{
-				heterogeneos_menores.push_back(elementos[i]);
-			}
-			else if(elementos[i]>pivote)
-			{
-				heterogeneos_mayores.push_back(elementos[i]);
-			}
-			else
-			{
-				homogeneos.push_back(elementos[i]);
-			}
+			het++;
 		}
+		
 
 		if(homogeneos.size()>heterogeneos_mayores.size() && homogeneos.size()>heterogeneos_menores.size())
 		{
