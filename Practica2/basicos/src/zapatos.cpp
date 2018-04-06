@@ -116,11 +116,21 @@ void tallas(int *zapatos,int *pies,int inicio,int fin)
 	{
 		int p=pivote(zapatos,pies,inicio,fin);
 
-		if(p>inicio && p!=fin)
-            tallas(zapatos,pies,inicio,p);
+		if(p>inicio)
+		{
+			if(p==fin)
+				tallas(zapatos,pies,inicio,p-1);
+			else
+            	tallas(zapatos,pies,inicio,p);
+		}
 
-      	if(p<fin && p!=inicio)
-      		tallas(zapatos,pies,p,fin);	
+      	if(p<fin)
+      	{
+      		if(p==inicio)
+      			tallas(zapatos,pies,p+1,fin);	
+      		else
+      			tallas(zapatos,pies,p,fin);	
+      	}
 	}
 /*
 	int i=inicio;
