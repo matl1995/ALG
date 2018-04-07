@@ -4,62 +4,51 @@
 #include <utility> //Para hacer pair
 using namespace std;
 
-int pivote(int *zapatos,int *pies, int inicio, int fin)
+pair<int,int> pivote(int *zapatos/*,int *pies*/, int inicio, int fin)
 {
-	int p,p2,k,l,aux;
+	int p,k,l,aux;
 	k=inicio;
-	p=zapatos[inicio];
+	p=zapatos[(inicio+fin)/2];
+	cout<<"pivote seleccionado: "<<p<<endl;
 	l=fin;
 
 	//Ejecuto el funcionamiento del pivote para los pies, por lo que el pivote
 	//obtenido proviene de los zapatos
-	while(pies[k]<p && k<fin)
-		k++;
+    while(k<l)
+    {
+        while(zapatos[k]<=p && k<=fin)
+            k++;
 
-	while(pies[l]>=p && l>inicio)
-	{
-		if(pies[l]==p)
-			p2=pies[l];
-
-		if(pies[l]==p && pies[k]>pies[l])
-		{
-			//swap pies[k] con pies[l]
-			aux=pies[k];
-			pies[k]=pies[l];
-			pies[l]=aux;
-		}
-
-		l--;
-	}
-
-	while(k<l)
-	{
-		//swap pies[k] con pies[l]
-		aux=pies[k];
-		pies[k]=pies[l];
-		pies[l]=aux;
-
-		while(pies[k]<p)
-			k++;
-
-		while(pies[l]>=p)
-		{
-			if(pies[l]==p)
-				p2=pies[l];
-
-			if(pies[l]==p && pies[k]>pies[l])
-			{
-				//swap pies[k] con pies[l]
-				aux=pies[k];
-				pies[k]=pies[l];
-				pies[l]=aux;
-			}
-
+        while(zapatos[l]>p && l>=inicio)
 			l--;
-		}
-	}
 
-	k=inicio;
+        if(k<l)
+        {
+            aux=zapatos[k];
+            zapatos[k]=zapatos[l];
+            zapatos[l]=aux;
+        }
+    }
+
+    //Coloco los elementos pivote a la izquierda de la posición final
+    //que tendrá el pivote
+    int pos=k-1;
+    for(int i=0;i<pos;i++)
+    {
+    	if(zapatos[i]==p)
+    	{
+    		while(zapatos[pos]==p && pos>i)
+    			pos--;
+
+    		aux=zapatos[pos];
+            zapatos[pos]=zapatos[i];
+            zapatos[i]=aux;
+    	}
+    }
+
+	return make_pair(pos,k);
+
+	/*k=inicio;
 	l=fin;
 
 	//Ejecuto el funcionamiento del pivote para los zapatos, por lo que el pivote
@@ -107,102 +96,21 @@ int pivote(int *zapatos,int *pies, int inicio, int fin)
 		}
 	}
 	
-	return l;
+	return l;*/
 }
 
-void tallas(int *zapatos,int *pies,int inicio,int fin)
+void tallas(int *zapatos/*,int *pies*/,int inicio,int fin)
 {
 	if(inicio<fin)
 	{
-		int p=pivote(zapatos,pies,inicio,fin);
+		pair<int,int> p=pivote(zapatos,inicio,fin);
 
-		if(p>inicio)
-		{
-			if(p==fin)
-				tallas(zapatos,pies,inicio,p-1);
-			else
-            	tallas(zapatos,pies,inicio,p);
-		}
+		if(inicio<p.first-1)
+			tallas(zapatos,inicio,p.first-1);
 
-      	if(p<fin)
-      	{
-      		if(p==inicio)
-      			tallas(zapatos,pies,p+1,fin);	
-      		else
-      			tallas(zapatos,pies,p,fin);	
-      	}
+		if(p.second<fin)
+      		tallas(zapatos,p.second,fin);
 	}
-/*
-	int i=inicio;
-	int j=fin;
-    int tmp;
-    int p=zapatos[inicio];
-    int p2;
- 
- 	//Funcion pivote con los pies
-    while(i<j) 
-    {
-    	tmp=pies[i];
-        pies[i]=pies[j];
-        pies[j]=tmp;
-
-    	while(pies[i]<=p)
-    	{
-    		if(pies[i]==p)
-    			p2=pies[i];
-
-    		if(pies[i]!=pies[j])
-    			i++;
-    	}
-
-    	do{
-    		j++;
-    	}while(pies[j]>p);
-
-        if(pies[i]==p)
-    		p2=pies[i];
-
-    	if(pies[j]==p)
-    		p2=pies[j];
-    }
-
-    i=inicio;
-	j=fin;
-
-	cout<<"pivote 1: "<<p<<" pivote 2: "<<p2<<endl;
-    
-    //Funcion pivote con los zapatos
-    while(i<=j) 
-    {
-        while(zapatos[i]<p)
-        {
-            i++;
-        }
-
-        while(zapatos[j]>p)
-        {
-            j--;
-        }
-
-        if(i<=j)
-        {
-            tmp=zapatos[i];
-            zapatos[i]=zapatos[j];
-            zapatos[j]=tmp;
-            i++;
-            j--;
-        }
-    }
-
-    if(inicio<j)
-    {
-    	tallas(zapatos,pies,inicio,j);
-    }
-
-    if(i<fin)
-    {
-    	tallas(zapatos,pies,i,fin);
-    }*/
 }
 
 int main(int argc, char * argv[])
@@ -225,22 +133,22 @@ int main(int argc, char * argv[])
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		zapatos[i]=rand()%tam;    // Generar aleatorio [0,5]
-		pies[i]=zapatos[i];
+		//pies[i]=zapatos[i];
 		cout<<zapatos[i]<<" ";
 	}
 	cout<<endl;
 
 	//Desordeno pies
-	random_shuffle(&pies[0],&pies[tam]);
-
+	//random_shuffle(&pies[0],&pies[tam]);
+/*
 	//Imprimo las tallas de los pies
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		cout<<pies[i]<<" ";
 	}
 	cout<<endl;
-
-	tallas(zapatos,pies,0,tam-1);
+*/
+	tallas(zapatos,0,tam-1);
 
 	cout<<"Vectores despues de ordenar:"<<endl;
 	for (int i=0;i<tam;i++)  // Recorrer vector
@@ -248,10 +156,10 @@ int main(int argc, char * argv[])
 		cout<<zapatos[i]<<" ";
 	}
 	cout<<endl;
-
+/*
 	for (int i=0;i<tam;i++)  // Recorrer vector
 	{
 		cout<<pies[i]<<" ";
 	}
-	cout<<endl;
+	cout<<endl;*/
 }

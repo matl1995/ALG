@@ -4,7 +4,7 @@
 #include <utility> //Para hacer pair
 #include <vector> //Para tener vectores
 using namespace std;
-
+/*
 pair<int,int> moda(vector<int> elementos,int n)
 {
 	pair<int,int> resultado;
@@ -62,9 +62,9 @@ pair<int,int> moda(vector<int> elementos,int n)
 
 	return resultado;
 }
-
+*/
 int main(int argc, char * argv[])
-{
+{/*
 	if (argc!=2)
 	{
 		cout<<"Formato: ./zapatos numero-de-niños/zapatos"<<endl;
@@ -88,5 +88,5 @@ int main(int argc, char * argv[])
 
 	pair<int,int> moda_freq=moda(elementos,tam);
 
-	cout<<"Elemento moda: "<<moda_freq.first<<", numero de veces que aparece: "<<moda_freq.second<<endl;
+	cout<<"Elemento moda: "<<moda_freq.first<<", numero de veces que aparece: "<<moda_freq.second<<endl;*/
 }
