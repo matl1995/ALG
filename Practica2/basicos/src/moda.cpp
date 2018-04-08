@@ -100,10 +100,14 @@ pair<int,int> moda(int *elementos,int inicio,int fin)
 		else
 		{
 			//Ahora llamo recursivamente para comprobar los heterogeneos mayores y menores
-			pair<int,int> homogeneos_menores,homogeneos_mayores;
+			pair<int,int> homogeneos_menores=make_pair(0,0);
+			pair<int,int> homogeneos_mayores=make_pair(0,0);
 
-			homogeneos_menores=moda(elementos,inicio,p.first-1);
-			homogeneos_mayores=moda(elementos,p.second,fin);
+			if(inicio<=p.first-1)
+				homogeneos_menores=moda(elementos,inicio,p.first-1);
+
+			if(p.second<=fin)
+				homogeneos_mayores=moda(elementos,p.second,fin);
 
 			//Ahora escogemos cual es el numero que se repite mas, que será la moda, en caso de que haya
 			//varios numero moda, se quedará con el que primero aparezca, primero el de homogeneos, luego
