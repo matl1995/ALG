@@ -1,7 +1,7 @@
 #include "imagen.h"
 #include <fstream>
 
-int formas(Imagen &I,Imagen &forma)
+int CuantasFormas(Imagen &I,Imagen &forma,int inicio_i,int inicio_j,int tam,Imagen &mask)
 {
   int resultado;
 
@@ -25,7 +25,18 @@ int formas(Imagen &I,Imagen &forma)
     if(!coincide)
       resultado=0;
     else
+    {
       resultado=1;
+
+      //Establezco los valores de la mascara a 1
+      for(int i=0;i<mask.num_filas();i++)
+      {
+        for(int j=0;j<mask.num_cols();j++)
+        {
+          mask(i,j)='255';
+        }
+      }
+    }
   }
   else
   {
@@ -132,11 +143,22 @@ int main(int argc, char * argv[]){
   Imagen I,forma;
   I.LeerImagen(argv[1]);
   forma.LeerImagen(argv[2]);
-  
-  //Vuestro codigo para implementar la funcion que busca la forma en I
-  
-  int num_formas=formas(I,forma);
 
+  //Genero la imagen máscara
+  Imagen mask(I.num_filas(),I.num_cols());
+
+  //Inicializo a 0 la matriz mascara
+  for(int i=0;i<mask.num_filas();i++)
+  {
+    for(int j=0;j<mask.num_cols();j++)
+    {
+      mask(i,j)='0';
+    }
+  }
+  
+  //Llamo a la función que contabiliza el número de formas  
+  int num_formas=CuantasFormas(I,forma,0,0,I.num_filas(),mask);
+
+  //Imprimo por pantalla el numero de veces que aparece la forma buscada
   cout<<"El numero de ocurrencias de la forma buscada es: "<<num_formas<<endl;
-
 }
