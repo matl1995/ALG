@@ -4,6 +4,9 @@
 #include <utility> //Para hacer pair
 using namespace std;
 
+//Tengo una función pivote que se encarga de devolver la posición donde empiezan los elementos mayores y
+//menores, con respecto a un elemento pivote que se eligió al azar, también ordena este vector para que los 
+//elementos mayores y menores queden a partir de las posiciones que se devuelven
 pair<int,int> pivote(int *zapatos,int *pies, int inicio, int fin)
 {
 	int p,k,l,aux;
@@ -106,6 +109,8 @@ pair<int,int> pivote(int *zapatos,int *pies, int inicio, int fin)
 	return make_pair(pos,k);
 }
 
+//Tengo una función tallas que será la que en función del valor obtenido al llamar a pivote hará las llamadas
+//recursivas a ella misma para llevar a cabo el procedimiento divide y vencerás
 void tallas(int *zapatos,int *pies,int inicio,int fin)
 {
 	if(inicio<fin)
