@@ -1,46 +1,72 @@
 #include "imagen.h"
 #include <fstream>
 
-int CuantasFormas(Imagen &I,Imagen &forma,int inicio_i,int inicio_j,int tam_f,int tam_c,int **mask)
+int ComprobarForma(Imagen &I,Imagen &forma,int inicio_i,int inicio_j,int **mask)
 {
-  int resultado;
-
-  if(tam_f<forma.num_filas() || tam_c<forma.num_cols())
-  {
-    resultado=0;
-  }
-  else if(tam_f==forma.num_filas() && tam_c==forma.num_cols())
-  {
+    int resultado;
     bool coincide=true;
     bool ya_contada=true;
+    bool dentro=true; //Variable para que no se acceda a posiciones fuera de las imagenes
 
-    for(int i=inicio_i;i<tam_f;i++)
+    //cout<<"Compruebo imagen"<<endl;
+    //Comprobamos si coincide la zona de la imagen con la forma
+    for(int i=0;i<forma.num_filas() && dentro;i++)
     {
-      for(int j=inicio_j;j<tam_c;j++)
+      for(int j=0;j<forma.num_cols() && dentro;j++)
       {
-        if(I(i,j)!=forma(i,j))
-          coincide=false;
+        //cout<<"Comprobando posicion: "<<i<<" "<<j<<" con indices: "<<inicio_i<<" y "<<inicio_j<<endl;
+        
+        if(inicio_i+i<0 || inicio_i+i>I.num_filas() || inicio_j+j<0 || inicio_j+j>I.num_cols())
+          dentro=false;
 
-        if(mask[i][j]==0)
-          ya_contada=false;
+        if(dentro)
+        {
+          if(I(inicio_i+i,inicio_j+j)!=forma(i,j))
+            coincide=false;
+
+          if(mask[inicio_i+i][inicio_j+j]==0)
+            ya_contada=false;
+        }
       }
     }
 
-    if(!coincide)
+    if(!dentro)
+      cout<<"no dentro"<<endl;
+
+    if(!coincide) //Si no coincide devolvemos un 0
       resultado=0;
-    else if(coincide && !ya_contada)
+    else if(coincide && !ya_contada && dentro) //En caso de que si marcamos en la mascara para no volver a contabilizarla
     {
       resultado=1;
 
       //Establezco los valores de la mascara a 1
-      for(int i=inicio_i;i<tam_f;i++)
+      for(int i=0;i<forma.num_filas();i++)
       {
-        for(int j=inicio_j;j<tam_c;j++)
+        for(int j=0;j<forma.num_cols();j++)
         {
-          mask[i][j]=255;
+          mask[inicio_i+i][inicio_j+j]=255;
         }
       }
     }
+
+    return resultado;
+}
+
+int CuantasFormas(Imagen &I,Imagen &forma,int inicio_i,int inicio_j,int tam_f,int tam_c,int **mask)
+{
+  int resultado;
+
+  //cout<<"Filas: "<<tam_f<<" , columnas: "<<tam_c<<endl;
+
+  if(tam_f<forma.num_filas() || tam_c<forma.num_cols())
+  {
+    //cout<<"Caso 0"<<endl;
+    resultado=0;
+  }
+  else if(tam_f==forma.num_filas() && tam_c==forma.num_cols())
+  {
+    //cout<<"Caso 1"<<endl;
+    resultado=ComprobarForma(I,forma,inicio_i,inicio_j,mask);
   }
   else
   {
@@ -53,17 +79,32 @@ int CuantasFormas(Imagen &I,Imagen &forma,int inicio_i,int inicio_j,int tam_f,in
 
     int n4=CuantasFormas(I,forma,inicio_i+tam_f/2,inicio_j+tam_c/2,tam_f/2,tam_c/2,mask);
 
-    //Hago las recurrencias de la franja horizontal
-    int n5=CuantasFormas(I,forma,inicio_i+tam_f/2-forma.num_filas()+1,inicio_j,(forma.num_filas()*2)-2,tam_c/2,mask);
+    int n5=0;
 
-    int n6=CuantasFormas(I,forma,inicio_i+tam_f/2-forma.num_filas()+1,inicio_j+tam_c/2,(forma.num_filas()*2)-2,tam_c/2,mask);
+    int n6=0;
 
-    //Hago las recurrencias de la franja vertical
-    int n7=CuantasFormas(I,forma,inicio_i,inicio_j+tam_c/2-forma.num_cols()+1,tam_f/2,(forma.num_cols()*2)-2,mask);
+    //cout<<"Comprobacion franja horizontal"<<endl;
+    //Compruebo la franja horizontal
+    for(int i=0;i<2;i++)
+    {
+      for(int j=0;j<=tam_c-forma.num_cols();j++)
+      {
+        //cout<<"Iteracion i: "<<i<<" , j: "<<j<<endl;
+        resultado+=ComprobarForma(I,forma,inicio_i+tam_f/2-forma.num_filas()+1+i,inicio_j+j,mask);
+      }
+    }
+    //cout<<"Comprobacion franja vertical"<<endl;
+    //Compruebo la franja vertical
+    for(int j=0;j<2;j++)
+    {
+      for(int i=0;i<=tam_f-forma.num_filas();i++)
+      {
+        //cout<<"Iteracion i: "<<i<<" , j: "<<j<<endl;
+        resultado+=ComprobarForma(I,forma,inicio_i+i,inicio_j+tam_c/2-forma.num_cols()+1+j,mask);
+      }
+    }
 
-    int n8=CuantasFormas(I,forma,inicio_i+tam_f/2,inicio_j+tam_c/2-forma.num_cols()+1,tam_f/2,(forma.num_cols()*2)-2,mask);
-
-    resultado=n1+n2+n3+n4+n5+n6+n7+n8;
+    resultado=n1+n2+n3+n4+n5+n6;
   }
 
   return resultado;
@@ -96,7 +137,7 @@ int main(int argc, char * argv[]){
       mask[i][j]=0;    // Generar aleatorio [0,tam]
     }
   }
-  
+  cout<<"Datos recibidos"<<endl;
   //Llamo a la función que contabiliza el número de formas  
   int num_formas=CuantasFormas(I,forma,0,0,I.num_filas(),I.num_cols(),mask);
 
