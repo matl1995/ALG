@@ -18,18 +18,18 @@ istream &operator>>(istream& is, vector<int> &S) {
 
 pair<int,int> FuncionObjetivo(vector<int> S, int M) //Devuelve el valor mas optimo para añadir a la solucion
 {
-	pair<int,int> max_indice=make_pair(-1,-1);
+	pair<int,int> min_indice=make_pair(100000,-1);
 
 	for(unsigned int i=0;i<S.size();i++)
 	{
-		if(S[i]>max_indice.first)
+		if(S[i]<min_indice.first)
 		{
-			max_indice.first=S[i];
-			max_indice.second=i;
+			min_indice.first=S[i];
+			min_indice.second=i;
 		}
 	}
 
-	return max_indice;
+	return min_indice;
 }
 
 bool FuncionFactible(int M, int valor)
@@ -54,7 +54,7 @@ vector<int> FuncionSolucion(vector<int> &S, int &M)
 	pair<int,int> seleccionado;
 	vector<int> resultado;
 
-	while(M>0 && S.size()!=0)
+	while(M!=0 && S.size()!=0)
 	{
 		seleccionado=FuncionSeleccion(S,M);
 		S.erase(S.begin()+seleccionado.second);
