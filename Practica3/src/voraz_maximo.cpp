@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <vector>
 
 using namespace std;
@@ -18,7 +19,7 @@ istream &operator>>(istream& is, vector<int> &S) {
 
 pair<int,int> FuncionObjetivo(vector<int> S, int M) //Devuelve el valor mas optimo para añadir a la solucion
 {
-	pair<int,int> min_indice=make_pair(100000,-1);
+	pair<int,int> min_indice=make_pair(numeric_limits<int>::max(),-1);
 
 	for(unsigned int i=0;i<S.size();i++)
 	{
