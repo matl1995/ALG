@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 using namespace std;
@@ -7,31 +8,64 @@ istream &operator>>(istream& is, vector<int> &S) {
   
 	string line; //String que almacena una linea del archivo
 
-	getline(is, line); //Obtengo la primera linea del archivo
-
-	while (!is.eof()) //While se ejecuta hasta que no se llegue al final del archivo
+	while(getline(is, line)) //While se ejecuta mientras reciba lineas
 	{                   
 		S.push_back(atoi(line.c_str())); //Convierto la linea en un entero y la meto al vector
-		getline(is, line); //Meto la siguiente linea en line
 	}
   
 	return is;
 }
 
-void FuncionObjetivo(){
+pair<int,int> FuncionObjetivo(vector<int> S, int M) //Devuelve el valor mas optimo para añadir a la solucion
+{
+	pair<int,int> max_indice=make_pair(-1,-1);
 
+	for(unsigned int i=0;i<S.size();i++)
+	{
+		if(S[i]>max_indice.first)
+		{
+			max_indice.first=S[i];
+			max_indice.second=i;
+		}
+	}
+
+	return max_indice;
 }
 
-void FuncionFactible() {
-
+bool FuncionFactible(int M, int valor)
+{
+	if(M-valor>=0)
+		return true;
+	else
+		return false;
 }
 
-void Funcion_Seleccion (){
+pair<int,int> FuncionSeleccion(vector<int> S,int M) //Devuelve el valor e indice del elemento optimo para introducir
+{
+	pair<int,int> indice_valor;
 
+	indice_valor=FuncionObjetivo(S,M);
+
+	return indice_valor;
 } 
 
-void Funcion_Solucion (){
+vector<int> FuncionSolucion(vector<int> &S, int &M)
+{
+	pair<int,int> seleccionado;
+	vector<int> resultado;
 
+	while(M>0 && S.size()!=0)
+	{
+		seleccionado=FuncionSeleccion(S,M);
+		S.erase(S.begin()+seleccionado.second);
+		if(FuncionFactible(M,seleccionado.first))
+		{
+			resultado.push_back(seleccionado.first);
+			M-=seleccionado.first;
+		}
+	}
+
+	return resultado;
 }
 
 int main (int argc, char * argv[]) {
@@ -50,7 +84,7 @@ int main (int argc, char * argv[]) {
 	  
 	vector<int> S; //Creo el vector donde ira el conjunto de numeros
 
-	archivo>>S; //Lleno el vector con los numeros del archivo dado
+	archivo>>S; //Lleno el vector con los numeros del archivo dado (candidatos)
 
 	int M=atoi(argv[2]); //Meto el numero a sumar en la variable M
   
@@ -63,10 +97,10 @@ int main (int argc, char * argv[]) {
 	vector<int> resultado; //Vector que contendrá los elementos que formarán la solución
 
 	//Llamamos a la función para obtener la solución
-	Funcion_Solucion();
+	resultado=FuncionSolucion(S,M);
 
 	//Muestro el resultado
-	cout<<"Los numeros obtenidos para obtener "<<argv[2]<<" son: ";
+	cout<<"Los numeros recibidos para obtener "<<argv[2]<<" son: ";
 
 	int suma=0; //Creo e inicializo la variable que contendra la suma de la solución obtenida
 
@@ -76,7 +110,7 @@ int main (int argc, char * argv[]) {
 	}
 	else //En caso de que si haya una solución
 	{
-		for(int i=0;i<resultado.size();i++) //Recorro el vector resultado
+		for(unsigned int i=0;i<resultado.size();i++) //Recorro el vector resultado
 		{
 			suma=suma+resultado[i]; //Voy sumando los elementos que forman parte de la solución
 

@@ -3,10 +3,10 @@ INC = include
 OBJ = obj
 BIN = bin
 CXX = g++
-CPPFLAGS = -Wall -g  -I$(INC) -c -std=c++11
+CPPFLAGS = -Wall -g  -I$(INC) -std=c++11
 
 
-all: $(BIN)/cifras
+all: $(BIN)/voraz_maximo
 
 # ************ Generación de documentación ******************
 documentacion:
