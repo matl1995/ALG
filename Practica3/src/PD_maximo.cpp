@@ -17,13 +17,13 @@ istream &operator>>(istream& is, vector<int> &S) {
 	return is;
 }
 
-vector<int> Suma(vector<int> S, int M)
+vector<int> Suma(vector<int> S, int M) //Función para obtener la suma con PD
 {
 	/*******CREO LA TABLA*******/
 
 	int n=S.size(); //Numero de objetos disponibles
 
-	int tabla[n+1][M+1];
+	int tabla[n+1][M+1]; //Reservo la memoria para la tabla
 
 	//Relleno la fila 0 de la tabla con 0
 	for(int i=0;i<=M;i++)
@@ -44,12 +44,12 @@ vector<int> Suma(vector<int> S, int M)
 		    v1=tabla[i-1][j];
 
 		    //Si cojo el elemento actual
-		    if(j-S[i-1]<0)
+		    if(j-S[i-1]<0) //Si la posicion para calcular el valor actual esta fuera de la tabla ponemos -infinito
 		    	v2=numeric_limits<int>::min();
-		    else
+		    else //Si la posicion esta dentro calculamos con la formula
 		    	v2=tabla[i-1][j-S[i-1]]+S[i-1];
 
-		    //Cojo el minimo de las dos opciones
+		    //Cojo el minimo de las dos opciones(coger o no coger el elemento)
 		    if(v1>=v2)
 		    	tabla[i][j]=v1;
 		    else
@@ -62,18 +62,18 @@ vector<int> Suma(vector<int> S, int M)
 
 	int i=n,j=M;
 
-	while(i>0 && j>0)
+	while(i>0 && j>0) //Mientras que los indices no se salgan de la tabla
 	{
 
-		if(tabla[i][j]!=tabla[i-1][j])
+		if(tabla[i][j]!=tabla[i-1][j]) //Si el elemento no es igual que el de la fila superior
 		{
-			resultado.push_back(S[i-1]);
-			j=j-S[i-1];
-			i-=1;
+			resultado.push_back(S[i-1]); //Lo meto como solución
+			j=j-S[i-1]; //Muevo indice de columna a el valor que queda para alcanzar la suma deseada menos el peso del recien introducido
+			i-=1; //Muevo el indice a la fila anterior
 		}
-		else
+		else //Si el elemento es igual que el de la fila superior, este no se mete como solucion
 		{
-			i-=1;
+			i-=1; //Muevo el indice a la fila anterior
 		}
 	}
 

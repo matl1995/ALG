@@ -17,52 +17,77 @@ istream &operator>>(istream& is, vector<int> &S) {
 	return is;
 }
 
-pair<int,int> FuncionObjetivo(vector<int> S, int M) //Devuelve el valor mas optimo para añadir a la solucion
+//Funcion para ordenar del vector de menor a mayor
+void OrdenacionSeleccion(vector<int> &v)
 {
-	pair<int,int> min_indice=make_pair(numeric_limits<int>::max(),-1);
+  int posicion_minimo, temp, n=v.size();
 
-	for(unsigned int i=0;i<S.size();i++)
-	{
-		if(S[i]<min_indice.first)
-		{
-			min_indice.first=S[i];
-			min_indice.second=i;
-		}
-	}
+  for(int i=0;i<n-1;i++)
+  {
+    posicion_minimo=i;
 
-	return min_indice;
+    for(int j=i+1;j<n;j++)
+    {
+    	if(v[j]<v[posicion_minimo])
+    	{
+    		posicion_minimo=j;
+    	}
+    }
+
+    temp=v[i];
+    v[i]=v[posicion_minimo];
+    v[posicion_minimo]=temp;
+  }
 }
 
-bool FuncionFactible(int M, int valor)
+int FuncionObjetivo(vector<int> &S, int M) //Devuelve el valor mas optimo para añadir a la solucion
 {
-	if(M-valor>=0)
+	//Como ya hemos ordenado el vector para que siga el criterio establecido(Coger elemento menor)
+	//solo tenemos que coger el primer elemento del vector devolverlo y eliminarlo de este
+
+	int optimo;
+
+	optimo=S[0]; //Introduzco el primer elemento (el optimo) en la variable a devolver
+
+	S.erase(S.begin()); //Elimino dicho elemento del vector para que no se vuelva a considerar
+
+	return optimo;
+}
+
+bool FuncionFactible(int M, int valor) //Comprueba si es posible usar el elemento para la suma
+{
+	if(M-valor>=0) //Si el elemento seleccionado cabe para la suma de M, se devuelve true
 		return true;
-	else
+	else //Si el elemento hace que la suma se pase de M, se devuelve false
 		return false;
 }
 
-pair<int,int> FuncionSeleccion(vector<int> S,int M) //Devuelve el valor e indice del elemento optimo para introducir
-{
-	pair<int,int> indice_valor;
+int FuncionSeleccion(vector<int> &S,int M) //Devuelve el elemento seleccionado por la función(objetivo) que coge el
+{										   //elemento óptimo segun el criterio establecido
 
-	indice_valor=FuncionObjetivo(S,M);
+	//Como la función óbjetivo elige el mejor elemento solo llamamos a esta y ya nos devuelve el elemento óptimo
+	int seleccionado;
 
-	return indice_valor;
+	seleccionado=FuncionObjetivo(S,M);
+
+	return seleccionado;
 } 
 
 vector<int> FuncionSolucion(vector<int> &S, int &M)
 {
-	pair<int,int> seleccionado;
+	int seleccionado;
 	vector<int> resultado;
 
-	while(M!=0 && S.size()!=0)
+	//Ordeno el vector de menor a mayor para que siga el criterio establecido
+	OrdenacionSeleccion(S);
+
+	while(M!=0 && S.size()!=0) //Ejecuto bulce hasta que ya haya sumado M o no queden mas elementos para sumar
 	{
-		seleccionado=FuncionSeleccion(S,M);
-		S.erase(S.begin()+seleccionado.second);
-		if(FuncionFactible(M,seleccionado.first))
+		seleccionado=FuncionSeleccion(S,M); //Llamo a la función de selección para obtener el elemento optimo para la suma
+		if(FuncionFactible(M,seleccionado)) //Si es posible añadir el elemento a la suma entro en el if
 		{
-			resultado.push_back(seleccionado.first);
-			M-=seleccionado.first;
+			resultado.push_back(seleccionado); //Añado el elemento al resultado
+			M-=seleccionado; //Disminuyo el tamaño para alcanzar el valor deseado, con el tamaño del elemento introducido
 		}
 	}
 
