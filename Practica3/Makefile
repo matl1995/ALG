@@ -6,7 +6,7 @@ CXX = g++
 CPPFLAGS = -Wall -g  -I$(INC) -std=c++11
 
 
-all: $(BIN)/voraz_maximo $(BIN)/PD_maximo
+all: $(BIN)/voraz_maximo $(BIN)/PD_maximo $(BIN)/PD_operaciones
 
 # ************ Generación de documentación ******************
 documentacion:
@@ -19,6 +19,8 @@ $(BIN)/voraz_maximo:
 $(BIN)/PD_maximo:  
 	$(CXX) $(SRC)/PD_maximo.cpp -o $(BIN)/PD_maximo $(CPPFLAGS)
 
+$(BIN)/PD_operaciones:  
+	$(CXX) $(SRC)/PD_operaciones.cpp -o $(BIN)/PD_operaciones $(CPPFLAGS)
 
 # ************ Limpieza ************
 clean :
