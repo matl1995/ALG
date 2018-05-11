@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -13,6 +14,29 @@ struct casilla {
 	int valor=numeric_limits<int>::max();
 	operacion op=no;
 };
+
+//Funcion para ordenar del vector de mayor a menor
+void OrdenacionSeleccion(vector<int> &v)
+{
+  int posicion_maximo, temp, n=v.size();
+
+  for(int i=0;i<n-1;i++)
+  {
+    posicion_maximo=i;
+
+    for(int j=i+1;j<n;j++)
+    {
+    	if(v[j]>v[posicion_maximo])
+    	{
+    		posicion_maximo=j;
+    	}
+    }
+
+    temp=v[i];
+    v[i]=v[posicion_maximo];
+    v[posicion_maximo]=temp;
+  }
+}
 
 istream &operator>>(istream& is, vector<int> &S) {
   
@@ -75,7 +99,7 @@ vector<casilla> Operaciones(vector<int> S, int M) //Función para obtener la sum
 		    	v4.valor=numeric_limits<int>::max();
 		    else //Si la posicion devuelve un numero entero calculamos con la formula
 		    {
-		    	v4.valor=tabla[i-1][j/S[i-1]].valor;
+		    	v4.valor=tabla[i-1][j/S[i-1]].valor*S[i-1];
 		    	v4.op=multiplicacion;
 		    }
 
@@ -84,7 +108,7 @@ vector<casilla> Operaciones(vector<int> S, int M) //Función para obtener la sum
 		    	v5.valor=numeric_limits<int>::max();
 		    else //Si la posicion esta dentro calculamos con la formula
 		    {
-		    	v5.valor=tabla[i-1][j*S[i-1]].valor;
+		    	v5.valor=tabla[i-1][j*S[i-1]].valor/S[i-1];
 		    	v5.op=division;
 		    }
 
@@ -194,6 +218,8 @@ int main (int argc, char * argv[]) {
 
 	archivo>>S; //Lleno el vector con los numeros del archivo dado (candidatos)
 
+	OrdenacionSeleccion(S);
+
 	for(unsigned int i=0;i<S.size();i++) //Recorro el vector resultado
 	{
 		cout<<S[i]<<" ";
@@ -215,6 +241,9 @@ int main (int argc, char * argv[]) {
 	//Llamamos a la función para obtener la solución
 	resultado=Operaciones(S,M);
 
+	//Invierto el vector para que sea mas legible
+	reverse(resultado.begin(),resultado.end());
+
 	//Muestro el resultado
 	cout<<"Los numeros recibidos para obtener "<<argv[2]<<" son: ";
 
@@ -226,11 +255,10 @@ int main (int argc, char * argv[]) {
 	{
 		for(unsigned int i=0;i<resultado.size();i++) //Recorro el vector resultado
 		{
-			if(i==resultado.size()-1) //Si es el ultimo valor solo imprime el numero
-				cout<<resultado[i].valor<<endl;
+			if(i==0) //Si es el ultimo valor solo imprime el numero
+				cout<<resultado[i].valor;
 			else //Si no imprime el numero y la operacion
 			{
-				cout<<resultado[i].valor;
 				if(resultado[i].op==suma)
 					cout<<"+";
 				else if(resultado[i].op==resta)
@@ -239,7 +267,10 @@ int main (int argc, char * argv[]) {
 					cout<<"*";
 				else if(resultado[i].op==division)
 					cout<<"/";
+
+				cout<<resultado[i].valor;
 			}
 		}
+		cout<<endl;
 	}
 }
