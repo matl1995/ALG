@@ -56,7 +56,13 @@ vector<casilla> Operaciones(vector<int> S, int M) //Función para obtener la sum
 
 	int n=S.size(); //Numero de objetos disponibles
 
-	casilla tabla[n+1][(M*S[0])+1]; //Reservo la memoria para la tabla
+	//Reservo la memoria de la tabla
+	casilla **tabla=new casilla*[n+1];
+
+	for(int i=0;i<=n;i++)
+	{
+		tabla[i]=new casilla[(M*S[0])+1];
+	}
 
 	//Relleno la fila 0 de la tabla, cada valor con su correspondiente numero de columna
 	for(int i=0;i<=(M*S[0]);i++)
@@ -143,27 +149,6 @@ vector<casilla> Operaciones(vector<int> S, int M) //Función para obtener la sum
 		}
 	}
 
-	//Imprimo la tabla
-	for(int i=0;i<=n;i++)
-	{
-	    for(int j=0;j<=(M*S[0]);j++)
-	    {
-	    	cout<<tabla[i][j].valor;
-			if(tabla[i][j].op==suma)
-				cout<<"+";
-			else if(tabla[i][j].op==resta)
-				cout<<"-";
-			else if(tabla[i][j].op==multiplicacion)
-				cout<<"*";
-			else if(tabla[i][j].op==division)
-				cout<<"/";
-
-			cout<<" ";
-	    }
-	    cout<<endl;
-	}
-	cout<<endl;
-
 	//Ahora obtengo el vector con los valores de la solucion optima
 	vector<casilla> resultado;
 
@@ -187,7 +172,9 @@ vector<casilla> Operaciones(vector<int> S, int M) //Función para obtener la sum
       		else if(tabla[i][j].op==multiplicacion)
         		j=j/S[i-1];
       		else
+      		{
         		j=j*S[i-1];
+      		}
 
 			i-=1; //Muevo el indice a la fila anterior
 		}
