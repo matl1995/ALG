@@ -3,7 +3,7 @@ INC = include
 OBJ = obj
 BIN = bin
 CXX = g++
-CPPFLAGS = -Wall -pg  -I$(INC) -std=c++11
+CPPFLAGS = -Wall -g  -I$(INC) -std=c++11
 
 
 all:  $(BIN)/mipareja_practicas_voraz

@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <utility>
 
 using namespace std;
 
@@ -76,9 +77,9 @@ vector<vector<int>> calcularMatrizDiscrepancias(vector<vector<int>> M)
 	return resultado;
 }
 
-vector<int> pareja_voraz(vector<vector<int>> discrepancias)
+vector<pair<int,int>> pareja_voraz(vector<vector<int>> discrepancias)
 {
-	vector<int> resultado(discrepancias.size()); //Creo el vector en el que irán los emparejamientos
+	vector<pair<int,int>> resultado(discrepancias.size()); //Creo el vector en el que irán los emparejamientos
 
 	//Relleno un vector con todos libres (1)
 	vector<int> libres(discrepancias.size(),1);
@@ -109,8 +110,10 @@ vector<int> pareja_voraz(vector<vector<int>> discrepancias)
 		{
 			libres[i]=0; //Marcamos i como ya emparejado
 			libres[pos]=0; //Marcamos la pareja de i asignada como ya emparejado
-			resultado[i]=pos; //Metemos en pareja de i a el alumno que fue elejido en pos
-			resultado[pos]=i; //Metemos en pareja del alumno pos al alumno i
+			resultado[i].first=pos; //Metemos en pareja de i a el alumno que fue elejido en pos
+			resultado[pos].first=i; //Metemos en pareja del alumno pos al alumno i
+			resultado[i].second=min;
+			resultado[pos].second=min;
 		}
 	}
 
@@ -136,6 +139,7 @@ int main (int argc, char * argv[]) {
 	archivo>>M; //Lleno la matriz con los datos del archivo
 
 	//Imprimo la matriz
+	cout<<"Archivo leido: "<<endl;
 	int fil=M.size();
 	int col=M[0].size();
 
@@ -166,12 +170,16 @@ int main (int argc, char * argv[]) {
 	cout<<endl;
 
 	//Llamo a la función voraz para obtener los emparejamientos de los alumnos
-	vector<int> pareja=pareja_voraz(discrepancias);
+	vector<pair<int,int>> pareja=pareja_voraz(discrepancias);
+
+	int suma_discrepancias=0;
 
 	//Imprimo los alumnos emparejados
 	cout<<"Las parejas asignadas son: "<<endl;
 	for(unsigned int i=0;i<pareja.size();i++)
 	{
-		cout<<"El alumno "<<i+1<<" tiene como pareja a: "<<pareja[i]+1<<endl; //sumo 1 para que empieze en 1 y no 0
+		cout<<"El alumno "<<i+1<<" tiene como pareja a: "<<pareja[i].first+1<<endl; //sumo 1 para que empieze en 1 y no 0
+		suma_discrepancias+=pareja[i].second;
 	}
+	cout<<"Discrepancia con voraces: "<<suma_discrepancias<<endl;
 }
