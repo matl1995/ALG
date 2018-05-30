@@ -42,82 +42,39 @@ istream &operator>>(istream& is, vector<vector<int>> &M)
 	return is;
 }
 
-/*//Funcion para ordenar del vector de menor a mayor
-void OrdenacionSeleccion(vector<int> &v)
+vector<vector<int>> calcularMatrizDiscrepancias(vector<vector<int>> M)
 {
-  int posicion_minimo, temp, n=v.size();
+	int size=M.size();
 
-  for(int i=0;i<n-1;i++)
-  {
-    posicion_minimo=i;
+	//Creo la matriz con su tamaño reservado
+	vector<vector<int>> resultado;
+	resultado.resize(size);
+	for(unsigned int i=0;i<resultado.size();i++)
+	{
+		resultado[i].resize(size);
+	}
 
-    for(int j=i+1;j<n;j++)
-    {
-    	if(v[j]<v[posicion_minimo])
-    	{
-    		posicion_minimo=j;
-    	}
-    }
+	//Relleno la diagonal con infinito
+	for(int i=0;i<size;i++)
+	{
+		resultado[i][i]=numeric_limits<int>::max();
+	}
 
-    temp=v[i];
-    v[i]=v[posicion_minimo];
-    v[posicion_minimo]=temp;
-  }
-}
-
-int FuncionObjetivo(vector<int> &S, int M) //Devuelve el valor mas optimo para añadir a la solucion
-{
-	//Como ya hemos ordenado el vector para que siga el criterio establecido(Coger elemento menor)
-	//solo tenemos que coger el primer elemento del vector devolverlo y eliminarlo de este
-
-	int optimo;
-
-	optimo=S[0]; //Introduzco el primer elemento (el optimo) en la variable a devolver
-
-	S.erase(S.begin()); //Elimino dicho elemento del vector para que no se vuelva a considerar
-
-	return optimo;
-}
-
-bool FuncionFactible(int M, int valor) //Comprueba si cabe el programa en la cinta
-{
-	if(M-valor>=0) //Si el programa tiene una longitud que cabe en lo que queda de cinta, devuelve true
-		return true;
-	else //Si el programa no cabe en lo que queda en la cinta, devuelve false
-		return false;
-}
-
-int FuncionSeleccion(vector<int> &S,int M) //Devuelve el elemento seleccionado por la función(objetivo) que coge el
-{										   //elemento óptimo segun el criterio establecido
-
-	//Como la función óbjetivo elige el mejor elemento solo llamamos a esta y ya nos devuelve el elemento óptimo
-	int seleccionado;
-
-	seleccionado=FuncionObjetivo(S,M);
-
-	return seleccionado;
-} 
-
-vector<int> FuncionSolucion(vector<int> &S, int &M)
-{
-	int seleccionado;
-	vector<int> resultado;
-
-	//Ordeno el vector de menor a mayor para que siga el criterio establecido
-	OrdenacionSeleccion(S);
-
-	while(M!=0 && S.size()!=0) //Ejecuto bulce hasta que ya se haya completado la cinta o no haya mas programas por almacenar
+	for(unsigned int i=0;i<M.size()-1;i++) //Bucle para recorrer cada alumno
+	{
+		for(unsigned int j=i+1;j<M.size();j++) //Bucle para comparar cada alumno con el resto
 		{
-		seleccionado=FuncionSeleccion(S,M); //Llamo a la función de selección para obtener el elemento optimo para la cinta
-		if(FuncionFactible(M,seleccionado)) //Si es posible añadir el elemento a la cinta entro en el if
-		{
-			resultado.push_back(seleccionado); //Añado el programa al resultado
-			M-=seleccionado; //Disminuyo el tamaño para alcanzar el maximo de la cinta, con la longitud del programa introducido
+			int discrepancia=0;
+			for(unsigned int k=0;k<M[0].size();k++) //Bucle para calcular cada una de las discrepancias
+			{
+				discrepancia+=abs(M[i][k]-M[j][k]);
+			}
+			resultado[i][j]=resultado[j][i]=discrepancia; //Introduzco la discrepancia en i,j y j,i ya que es el mismo par
 		}
 	}
 
 	return resultado;
-}*/
+}
 
 int main (int argc, char * argv[]) {
 
@@ -152,28 +109,16 @@ int main (int argc, char * argv[]) {
 	}
 	cout<<endl;
 
-	/*vector<int> resultado; //Vector que contendrá los elementos que formarán la solución
+	vector<vector<int>> discrepancias=calcularMatrizDiscrepancias(M);
 
-	//Llamamos a la función para obtener la solución
-	resultado=FuncionSolucion(S);
-
-	//Muestro el resultado
-	cout<<"El subconjunto que incluye mas programas con longitur inferior a "<<argv[2]<<" son: ";
-
-	int suma=0; //Creo e inicializo la variable que contendra la suma de la solución obtenida
-
-	if(resultado.empty()) //En caso de que no haya ninguna solución
+	cout<<"Matriz de discrepancias: "<<endl;
+	for(unsigned int i=0;i<discrepancias.size();i++)
 	{
-		cout<<0<<endl;
-	}
-	else //En caso de que si haya una solución
-	{
-		for(unsigned int i=0;i<resultado.size();i++) //Recorro el vector resultado
+		for(unsigned int j=0;j<discrepancias[0].size();j++)
 		{
-			suma=suma+resultado[i]; //Voy sumando los elementos que forman parte de la solución
-
-			cout<<resultado[i]<<" ";
+			cout<<discrepancias[i][j]<<" ";
 		}
-		cout<<"\nOcupando esta longitud dentro de la cinta: "<<suma<<endl;
-	}*/
+		cout<<endl;
+	}
+	cout<<endl;
 }
