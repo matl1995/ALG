@@ -76,6 +76,47 @@ vector<vector<int>> calcularMatrizDiscrepancias(vector<vector<int>> M)
 	return resultado;
 }
 
+vector<int> pareja_voraz(vector<vector<int>> discrepancias)
+{
+	vector<int> resultado(discrepancias.size()); //Creo el vector en el que irán los emparejamientos
+
+	//Relleno un vector con todos libres (1)
+	vector<int> libres(discrepancias.size(),1);
+
+	//Recorro la matriz para asignar los alumnos
+	for(unsigned int i=0;i<discrepancias.size();i++)
+	{
+		int min=numeric_limits<int>::max(); //Creo una variable con el minimo rellena con el valor mayor posible
+		int pos; //Creo una variable para almacenar la posicion del alumno con el que tiene menor discrepancia
+		bool encontrado=false; //Creo una variable para guardar si encuentra pareja al alumno actual
+
+		//Recorro los posibles alumnos (j) para emparejar con i
+		for(unsigned int j=i+1;j<discrepancias[0].size() && libres[i]==1;j++) //El alumno i tiene que estar libre para poder
+		{				//buscarle pareja, en caso de que no este libre ya la tiene asignada
+			if(libres[j]==1) //Si el alumno con el que queremos emparejar i esta libre entra al if
+			{
+				if(discrepancias[i][j]<min) //Si la discrepancia es menor que la mínima guardada entra al if
+				{
+					min=discrepancias[i][j]; //Guardamos la nueva discrepancia mínima
+					pos=j; //Guardamos la posicion del alumno con el que i tiene discrepancia mínima
+				}
+				encontrado=true; //Marcamos encontrado como true ya que le ha encontrado una pareja
+			}
+		}
+
+		//Si se ha encontrado una pareja para i entra en el if
+		if(encontrado)
+		{
+			libres[i]=0; //Marcamos i como ya emparejado
+			libres[pos]=0; //Marcamos la pareja de i asignada como ya emparejado
+			resultado[i]=pos; //Metemos en pareja de i a el alumno que fue elejido en pos
+			resultado[pos]=i; //Metemos en pareja del alumno pos al alumno i
+		}
+	}
+
+	return resultado;
+}
+
 int main (int argc, char * argv[]) {
 
 	if(argc!=2)
@@ -109,8 +150,10 @@ int main (int argc, char * argv[]) {
 	}
 	cout<<endl;
 
+	//Obtengo la matriz de discrepancias entre los alumnos
 	vector<vector<int>> discrepancias=calcularMatrizDiscrepancias(M);
 
+	//Imprimo la matriz de discrepancias
 	cout<<"Matriz de discrepancias: "<<endl;
 	for(unsigned int i=0;i<discrepancias.size();i++)
 	{
@@ -121,4 +164,14 @@ int main (int argc, char * argv[]) {
 		cout<<endl;
 	}
 	cout<<endl;
+
+	//Llamo a la función voraz para obtener los emparejamientos de los alumnos
+	vector<int> pareja=pareja_voraz(discrepancias);
+
+	//Imprimo los alumnos emparejados
+	cout<<"Las parejas asignadas son: "<<endl;
+	for(unsigned int i=0;i<pareja.size();i++)
+	{
+		cout<<"El alumno "<<i+1<<" tiene como pareja a: "<<pareja[i]+1<<endl; //sumo 1 para que empieze en 1 y no 0
+	}
 }
