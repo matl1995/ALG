@@ -34,10 +34,10 @@ istream &operator>>(istream& is, vector<vector<int>> &M)
     	for(int j=0;j<col;j++)
     	{
         	int tmp1;
-        	entrada_str>>tmp1;
-        	tmp.push_back(tmp1);
+        	entrada_str>>tmp1; //Meto cada elemento de la linea en la variable tmp1
+        	tmp.push_back(tmp1); //Voy creando un vector con los elementos de la linea
     	}
-    	M.push_back(tmp);
+    	M.push_back(tmp); //Inserto el vector como una fila de la matriz
 	}
 
 	return is;
@@ -87,13 +87,13 @@ vector<pair<int,int>> pareja_voraz(vector<vector<int>> discrepancias)
 	//Recorro la matriz para asignar los alumnos
 	for(unsigned int i=0;i<discrepancias.size();i++)
 	{
-		int min=numeric_limits<int>::max(); //Creo una variable con el minimo rellena con el valor mayor posible
+		int min=numeric_limits<int>::max(); //Creo una variable con el minimo inicializada con el valor mayor posible
 		int pos; //Creo una variable para almacenar la posicion del alumno con el que tiene menor discrepancia
 		bool encontrado=false; //Creo una variable para guardar si encuentra pareja al alumno actual
 
 		//Recorro los posibles alumnos (j) para emparejar con i
 		for(unsigned int j=i+1;j<discrepancias[0].size() && libres[i]==1;j++) //El alumno i tiene que estar libre para poder
-		{				//buscarle pareja, en caso de que no este libre ya la tiene asignada
+		{												//buscarle pareja, en caso de que no este libre ya la tiene asignada
 			if(libres[j]==1) //Si el alumno con el que queremos emparejar i esta libre entra al if
 			{
 				if(discrepancias[i][j]<min) //Si la discrepancia es menor que la mínima guardada entra al if
@@ -112,8 +112,8 @@ vector<pair<int,int>> pareja_voraz(vector<vector<int>> discrepancias)
 			libres[pos]=0; //Marcamos la pareja de i asignada como ya emparejado
 			resultado[i].first=pos; //Metemos en pareja de i a el alumno que fue elejido en pos
 			resultado[pos].first=i; //Metemos en pareja del alumno pos al alumno i
-			resultado[i].second=min;
-			resultado[pos].second=min;
+			resultado[i].second=min; //Metemos el valor de la discrepancia con su pareja
+			resultado[pos].second=min; //Metemos el valor de la discrepancia con su pareja
 		}
 	}
 
