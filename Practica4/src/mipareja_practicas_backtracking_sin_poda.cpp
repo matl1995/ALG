@@ -7,7 +7,7 @@
 #include <sstream>
 #include <chrono>
 
-using namespace std;
+using namespace std::chrono;
 
 istream &operator>>(istream& is, vector<vector<int>> &M) 
 {
@@ -78,90 +78,63 @@ vector<vector<int>> calcularMatrizDiscrepancias(vector<vector<int>> M)
 	return resultado;
 }
 
-vector<pair<int,int>> pareja_voraz(vector<vector<int>> discrepancias)
-{
-	vector<pair<int,int>> resultado(discrepancias.size()); //Creo el vector en el que irán los emparejamientos
-
-	//Relleno un vector con todos libres (1)
-	vector<int> libres(discrepancias.size(),1);
-
-	//Recorro la matriz para asignar los alumnos
-	for(unsigned int i=0;i<discrepancias.size();i++)
-	{
-		int min=numeric_limits<int>::max(); //Creo una variable con el minimo inicializada con el valor mayor posible
-		int pos; //Creo una variable para almacenar la posicion del alumno con el que tiene menor discrepancia
-		bool encontrado=false; //Creo una variable para guardar si encuentra pareja al alumno actual
-
-		//Recorro los posibles alumnos (j) para emparejar con i
-		for(unsigned int j=i+1;j<discrepancias[0].size() && libres[i]==1;j++) //El alumno i tiene que estar libre para poder
-		{												//buscarle pareja, en caso de que no este libre ya la tiene asignada
-			if(libres[j]==1) //Si el alumno con el que queremos emparejar i esta libre entra al if
-			{
-				if(discrepancias[i][j]<min) //Si la discrepancia es menor que la mínima guardada entra al if
-				{
-					min=discrepancias[i][j]; //Guardamos la nueva discrepancia mínima
-					pos=j; //Guardamos la posicion del alumno con el que i tiene discrepancia mínima
-				}
-				encontrado=true; //Marcamos encontrado como true ya que le ha encontrado una pareja
-			}
-		}
-
-		//Si se ha encontrado una pareja para i entra en el if
-		if(encontrado)
-		{
-			libres[i]=0; //Marcamos i como ya emparejado
-			libres[pos]=0; //Marcamos la pareja de i asignada como ya emparejado
-			resultado[i].first=pos; //Metemos en pareja de i a el alumno que fue elejido en pos
-			resultado[pos].first=i; //Metemos en pareja del alumno pos al alumno i
-			resultado[i].second=min; //Metemos el valor de la discrepancia con su pareja
-			resultado[pos].second=min; //Metemos el valor de la discrepancia con su pareja
-		}
-	}
-
-	return resultado;
-}
-
 int Suma_Discrepancias(const Apermutacion &P,const vector<vector<int>> discrepancias)
 {
+	//Creo un iterador para recorrer el arbol
 	Apermutacion::const_iterator it;
+	//Creo la variable que contendrá la suma de discrepancias que hay hasta el nodo actual
 	int discrepancia=0;
+	//Creo variable para recorrer los alumnos
 	int i=0;
+	//Recorro en el arbol hasta el nodo actual
 	for(it=P.begin();it!=P.end();++it)
 	{
+		//Sumo las discrepancias de la matriz que corresponden a las parejas que hay en los nodos del arbol
 		discrepancia+=discrepancias[i][*it-1];
+		//Incremento la variable para que vaya al siguiente alumno
 		i++;
 	}
   
+	//Devuelvo el valor de la suma de discrepancias que hay con las parejas hechas hasta el nodo actual relleno del arbol
 	return discrepancia;
 }
 
 int pareja_backtracking(int n, Apermutacion &ab,const vector<vector<int>> &discrepancias, int &nodos_recorridos)
 {
+	//Creo un arbol permutacional para ir creando las posibles soluciones al problema en el
 	Apermutacion P(n);
+	//Creo una variable para mantener el bucle ejecutandose
 	bool seguir=true;
+	//Almaceno en una variable como mejor discrepancia el mayor entero posible, ya que vamos a buscar la
+	//discrepancia mas pequeña, por lo que cualquier combinación de parejas sustituirá a este valor
 	int best_discrepancia=numeric_limits<int>::max();
-	int bact;
+	//Creo una variable para ir almacenando la discrepancia actual
+	int dact;
+	//Entro en el bucle para crear todas las posibles combinaciones del arbol permutacional
 	while(seguir)
 	{
+		//Aumento el número de nodos recorridos
 		nodos_recorridos++;
-		bact=Suma_Discrepancias(P,discrepancias);
+		//Obtengo la suma de discrepancias con las combinaciones de alumnos creadas hasta el momento
+		dact=Suma_Discrepancias(P,discrepancias);
+
+		//En caso de que este en el ultimo nivel del arbol, es decir, que haya generado todas las combinaciones
+		//de parejas posibles entra en el if
 		if(P.GetLevel()==n-1)
 		{
-			if(bact<best_discrepancia)
+			//Si la discrepancia actual mejora a la mejor que hay almacenada entra al if
+			if(dact<best_discrepancia)
 			{
-				best_discrepancia=bact;
+				best_discrepancia=dact; //Almaceno la actual como mejor discrepancia
+				
+				//Guardo en el arbol que contendrá la solucion el actual, ya que contiene la mejor solución hasta
+				//el momento, que puede que al final sea la definitiva
 				ab=P;
-				seguir=P.Backtracking();
-			}
-			else
-			{
-				seguir=P.GeneraSiguienteProfundidad();
-			}
+			}		
 		}
-		else
-		{
-			seguir=P.GeneraSiguienteProfundidad();
-		}
+
+		//Genero el siguiente nodo
+		seguir=P.GeneraSiguienteProfundidad();
 	}
 	
 	return best_discrepancia;
@@ -219,7 +192,19 @@ int main (int argc, char * argv[]) {
 	int nodos_recorridos=0;
 	Apermutacion ab(discrepancias.size());
 
+	/**************Mido el tiempo**************/
+
+	high_resolution_clock::time_point start,end;
+	duration<double> tiempo_transcurrido;
+	start=high_resolution_clock::now();
+
+	//Llamo a la función de backtracking
 	int discrepancia_total=pareja_backtracking(discrepancias.size(),ab,discrepancias,nodos_recorridos);
+
+	end=high_resolution_clock::now();
+    tiempo_transcurrido=duration_cast<duration<double>>(end-start);
+
+	/**************Mido el tiempo**************/
 
 	int total=ab.NumeroSecuenciasPosibles();
 	float porcentaje=(nodos_recorridos/(float)total)*100;
@@ -235,4 +220,7 @@ int main (int argc, char * argv[]) {
 		cout << "Persona " << i << " con Persona " << *it << endl;
 		i++;
 	}
+
+	
+	cout<<endl<<"Tiempo: "<<tiempo_transcurrido.count()<<endl;
 }
